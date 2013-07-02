@@ -107,7 +107,8 @@ class Notification extends ActiveRecord
         }
         return array('request_id' => $this->request_id,
             'time' => DateAndTime::returnTime($this->created_at, 'H:i d/m/Y'),
-            'status' => $status
+            'status' => $status,
+            'notification_id' => $this->id
             );
     }
 }

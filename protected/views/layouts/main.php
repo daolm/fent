@@ -52,6 +52,19 @@
             </div><!-- footer -->
         </div><!-- page -->
         
-        <script src='<?php echo Yii::app()->baseUrl; ?>/js/gumby.min.js'></script>  
+        <script src='<?php echo Yii::app()->baseUrl; ?>/js/gumby.min.js'></script> 
+        <script src='<?php echo Yii::app()->baseUrl; ?>/js/socket.io.js'></script> 
+        <script src='<?php echo Yii::app()->baseUrl; ?>/js/notification_client.js'></script> 
+        <?php 
+            if (!Yii::app()->user->isGuest) {                
+        ?>
+                <script>
+                    $(function(){
+                        nc = new NotificationClient("<?php echo Yii::app()->user->getState('redisChannel') ?>");   
+                    });
+                </script>
+        <?php                 
+            }
+        ?>
     </body>
 </html>

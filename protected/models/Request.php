@@ -157,6 +157,12 @@ class Request extends ActiveRecord
         } else {
             $notification->receiver_id = null;
         }
-        $notification->save();
+        $result = $notification->save();
+        if ($result && RedisNotification::checkRequirement()) {
+            $rn = new RedisNotification();
+            if ($rn->connect() && $rn->setChannelByUserId($notification->receiver_id)) {
+                $rn->publishNotifications(json_encode($notification->getData()));
+            }
+        }
     }
 } 

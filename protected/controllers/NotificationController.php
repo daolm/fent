@@ -36,7 +36,7 @@ class NotificationController extends Controller
         $notifications = $user->getAllNotifications();
         $results = array();
         foreach ($notifications as $noti) {
-            $results[$noti->id] = $noti->getData();
+            $results[] = $noti->getData();
         }
         echo json_encode($results);
     }
