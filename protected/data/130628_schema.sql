@@ -142,6 +142,7 @@ CREATE  TABLE IF NOT EXISTS `notification` (
   `created_at` INT NULL ,
   `receiver_id` INT(11) NULL ,
   `request_id` INT NOT NULL ,
+  `type` INT NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
