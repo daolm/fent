@@ -13,6 +13,18 @@ class UserController extends Controller
                 $form->attributes = $_POST['SigninForm'];                        
                 if ($form->validate() && $form->login()) {
                     Yii::app()->session['category'] = Category::model()->findAll();
+                    $channel = null;
+                    if (RedisNotification::checkRequirement()) {
+                        $rn = new RedisNotification();                        
+                        if ($rn->connect()) {
+                            if (Yii::app()->user->isAdmin) {
+                                $channel = $rn->checkIn('admin');
+                            } else {
+                                $channel = $rn->checkIn(Yii::app()->user->getId());                            
+                            }                                                
+                        }
+                    }
+                    Yii::app()->user->setState('redisChannel', $channel);
                     $this->redirect(Yii::app()->user->returnUrl);
                 } 
             }
@@ -114,7 +126,13 @@ class UserController extends Controller
         $this->render('change_password', array('form' => $form));
     }
     
-    public function actionSignout() {
+    public function actionSignout() {        
+        if (RedisNotification::checkRequirement()) {
+            $rn = new RedisNotification();        
+            if ($rn->connect()) {            
+                $rn->checkOut(Yii::app()->user->getId());                                                                                        
+            }
+        }
         Yii::app()->user->logout();
         $this->redirect(Yii::app()->homeUrl);
     }

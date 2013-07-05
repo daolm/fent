@@ -1,0 +1,16 @@
+Beside the "Client Pull" Technology, FENT also uses the "Server Push" Technology.
+By using "Server Push" Technology, we can make the Real Time Notifications System.
+
+But before using "Server Push", some other tool must be installed. 
+They are :
+- Redis : use to implement the Publish/Subscribe messaging paradigm.
+- phpredis : use for PHP to communicate with Redis server.
+- Node.js : use for delivering messages.
+- Some node modules include : Socket.io (use for connecting client and node server)
+     and node_redis (use for node server to communicate with Redis server)
+
+Then run redis-server at default port (6379)
+Run notification_server.js . The socket.io will use port 8080. If you want to change the port, 
+change in both notification_server and notification_client file.
+
+If there are problems with the "Server Push", the "Client Pull" is then used instead.
