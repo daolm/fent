@@ -50,7 +50,7 @@ class UserController extends Controller
                     $signinForm->attributes = $_POST['SignUpForm'];
                     $signinForm->login();
                     Yii::app()->session['category'] = Category::model()->findAll();
-                    $this->redirect(Yii::app()->homeUrl);
+                    $this->redirect(Yii::app()->createUrl('site/introduction'));
                 }
             } 
             $this->render('signup', array('form' => $form));
