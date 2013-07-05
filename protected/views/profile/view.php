@@ -72,7 +72,7 @@ $this->breadcrumbs = array(
             <?php
                 if ($model->date_of_birth != null) {
                     echo CHtml::encode($model->getAttributeLabel('date_of_birth')).': ';
-                    echo CHtml::encode($model->date_of_birth).'<br/>';
+                    echo CHtml::encode(DateAndTime::returnTime($model->date_of_birth)).'<br/>';
                 }
             ?>
 

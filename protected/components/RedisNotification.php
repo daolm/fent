@@ -9,7 +9,7 @@ class RedisNotification
     
     public static function checkRequirement()
     {
-        return class_exists('Redis');
+        return class_exists('Redis', false);
     }
     
     public function __construct($channel = null, $server = null, $port = null)

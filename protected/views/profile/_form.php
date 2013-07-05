@@ -61,8 +61,17 @@
 
 	<div class="row">
             <div class="field columns">
+                <?php
+                    if ($model->date_of_birth !== null) {
+                        $value = DateAndTime::returnTime($model->date_of_birth);
+                    } else {
+                        $value = null;
+                    }
+                ?>
                 <?php echo $form->labelEx($model,'date_of_birth'); ?>
-                <?php echo $form->dateField($model,'date_of_birth', array('class' => 'text input', 'value' => DateAndTime::returnTime($model->date_of_birth, 'Y-m-d'))); ?>
+                <?php echo $form->textField($model,'date_of_birth', array('class' => 'text input',
+                    'value' => $value,
+                    'placeholder' => 'dd/mm/yyyy')); ?>
             </div>
 	</div>
 

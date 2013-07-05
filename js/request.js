@@ -10,7 +10,8 @@ $(function(){
     $('.accept_request').click(function(){
         var request_id = $(this).attr('request_id');
         var value = $(this).attr('value');
-        acceptRequestAtHomepage(request_id, value);        
+        var request_end_time = $('#' + request_id).attr('placeholder');
+        acceptRequestAtHomepage(request_id, value, request_end_time);
     });
 });
 
@@ -23,14 +24,14 @@ function rejectRequestAtHomepage(request_id, value) {
             request_id: request_id,
             value: value
         }
-    }).success(function() {               
+    }).success(function() {
             $('#request_' + request_id).hide(window.FADING_DURATION);
         }).fail(function() {            
             alert('Fail !');
         });
 }
 
-function acceptRequestAtHomepage(request_id, value) {
+function acceptRequestAtHomepage(request_id, value, request_end_time) {
     var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?r=request/rejectOrAccept';                
     $.ajax({
         type: 'POST',
@@ -40,13 +41,15 @@ function acceptRequestAtHomepage(request_id, value) {
             value: value
         }
     }).success(function() {
+        if (request_end_time !== 'No time given') {
             var html = newUnexpiredRequests(request_id);
             $('#unexpired_requests').append(html);
-            $('#request_' + request_id).hide(window.FADING_DURATION, function() {
-                $(this).remove();
-                initDatePiker(request_id);
-                addFinishListener(request_id);
-            });
+        }
+        $('#request_' + request_id).hide(window.FADING_DURATION, function() {
+            $(this).remove();
+            initDatePiker(request_id);
+            addFinishListener(request_id);
+        });
         }).fail(function() {
             alert('Fail !');
         });
