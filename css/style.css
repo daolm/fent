@@ -78,3 +78,8 @@
     cursor: pointer;
     cursor: hand;
 }
+
+.notification {
+    margin-bottom: 5px;
+    text-align: center;
+}

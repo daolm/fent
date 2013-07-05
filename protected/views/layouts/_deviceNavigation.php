@@ -65,11 +65,12 @@
                         $status = 'accepted';
                         break;
                 }
-                echo '<div class="row" id = "notification_'.$noti->id.'">';
+                $notice = ($noti->request->status == Constant::$REQUEST_REJECTED) ? "danger" : "success";
+                echo "<div class=\"row {$notice} alert notification\" id = \"notification_{$noti->id}\">";
                 if (Yii::app()->user->isAdmin) {
-                    echo 'You have new waiting';
+                    echo 'You have a new waiting';
                 } else {
-                    echo 'Admin '.$status.' your';
+                    echo 'Admin '.$status.' your'; 
                 }
                 echo $noti->request->createViewLink(' request');
                 echo ' at time: '.DateAndTime::returnTime($noti->created_at, 'H:i d/m/Y');

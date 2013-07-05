@@ -39,15 +39,16 @@ function getNoti(){
 }
 
 function returnHtml(notification_id, value){
-    var html = '<div class="row" id="notification_' + notification_id + '" hidden="hidden">';
+    var notice_class = (value['status'] == 'rejected') ? 'danger' : 'success';
+    var html = '<div class="row ' + notice_class + ' alert notification" id="notification_' + notification_id + '" hidden="hidden">';
     if (value['status'] != 'waiting') {
         html += 'Admin ' + value['status'] + ' your';
     } else {
         html += 'You have a new ' + value['status'];
     }
-        html += '<a href="' + createUrl('request', value['request_id']) + '"> request</a>';
-        html += ' at time: ' + value['time'];
-        html += '<i id="i_' + notification_id + '"class="icon-cancel-circled delete_notification" notification_id="' + notification_id + '"></i>';
-        html += '</div>';
+    html += '<a href="' + createUrl('request', value['request_id']) + '"> request</a>';
+    html += ' at time: ' + value['time'];
+    html += '<i id="i_' + notification_id + '"class="icon-cancel-circled delete_notification" notification_id="' + notification_id + '"></i>';
+    html += '</div>';
     return html;
 }
