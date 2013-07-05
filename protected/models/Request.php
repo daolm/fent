@@ -151,6 +151,7 @@ class Request extends ActiveRecord
     {
         $notification = new Notification;
         $notification->request_id = $this->id;
+        $notification->type = $this->status;
         if ($this->status !== Constant::$REQUEST_BEING_CONSIDERED) {
             $notification->receiver_id = $this->user_id;
         } else {

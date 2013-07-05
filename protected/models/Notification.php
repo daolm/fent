@@ -39,7 +39,7 @@ class Notification extends ActiveRecord
         // will receive user inputs.
         return array(
             array('request_id', 'required'),
-            array('id, request_id, receiver_id, created_at, updated_at', 'numerical', 'integerOnly'=>true),
+            array('id, request_id, receiver_id, type, created_at, updated_at', 'numerical', 'integerOnly'=>true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, request_id, receiver_id, created_at, updated_at', 'safe', 'on'=>'search'),
@@ -68,6 +68,7 @@ class Notification extends ActiveRecord
             'id' => 'ID',
             'request_id' => 'Request',
             'receiver_id' => 'Receiver',
+            'type' => 'type',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         );
@@ -97,9 +98,9 @@ class Notification extends ActiveRecord
     
     public function getData()
     {
-        if ($this->request->status == Constant::$REQUEST_BEING_CONSIDERED) {
+        if ($this->type === Constant::$REQUEST_BEING_CONSIDERED) {
             $status = 'waiting';
-        } elseif ($this->request->status == Constant::$REQUEST_REJECTED) {
+        } elseif ($this->type === Constant::$REQUEST_REJECTED) {
             $status = 'rejected';
         } else {
             $status = 'accepted';

@@ -57,7 +57,7 @@
         $notifications = $user->getAllNotifications();
         if (isset($notifications)){
             foreach ($notifications as $noti){
-                switch ($noti->request->status) {
+                switch ($noti->type) {
                     case Constant::$REQUEST_REJECTED:
                         $status = 'rejected';
                         break;
