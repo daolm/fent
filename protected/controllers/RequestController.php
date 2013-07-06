@@ -79,7 +79,8 @@ class RequestController extends Controller {
                 }
             }
         }
-        $criteria->params = $params;                  
+        $criteria->params = $params;
+        $criteria->order = 'created_at DESC';
         $count = Request::model()->count($criteria);
         $pages = new CPagination($count);
         $pages->pageSize = 10;
