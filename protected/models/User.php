@@ -71,7 +71,7 @@ class User extends ActiveRecord
                 'on' => 'being_considered_requests.status=0'),
             'favorites' => array(self::HAS_MANY, 'Favorite', 'user_id'),
             'favorite_devices' => array(self::HAS_MANY, 'Device', array('device_id' => 'id'), 'through' => 'favorites'),
-            'notifications' => array(self::HAS_MANY, 'Notification', 'receiver_id')
+            'notifications' => array(self::HAS_MANY, 'Notification', 'receiver_id', 'order' => 'notifications.created_at DESC')
         );
     }
 
@@ -156,7 +156,10 @@ class User extends ActiveRecord
         if (!$this->is_admin){
             $notifications = $this->notifications;
         } else {
-            $notifications = Notification::model()->findAllByAttributes(array('type' => Constant::$REQUEST_BEING_CONSIDERED));
+            $notifications = Notification::model()->findAllByAttributes(
+                    array('type' => Constant::$REQUEST_BEING_CONSIDERED),
+                    array('order' => 'created_at DESC')
+                );
         }
         return $notifications;
     }

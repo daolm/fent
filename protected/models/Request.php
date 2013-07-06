@@ -173,4 +173,15 @@ class Request extends ActiveRecord
             }
         }
     }
+    
+    private function isCorrectUser()
+    {
+        return $this->user_id == Yii::app()->user->getId();
+    }
+    
+    public function canBeDeleted()
+    {
+         return (($this->isCorrectUser() && $this->status == Constant::$REQUEST_BEING_CONSIDERED) ||
+                (Yii::app()->user->isAdmin && $this->status != Constant::$REQUEST_ACCEPTED));
+    }
 } 
