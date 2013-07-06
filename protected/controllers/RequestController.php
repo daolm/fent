@@ -29,11 +29,7 @@ class RequestController extends Controller {
     
     public function actionIndex($status = null, $type_search = null, $from = null, $to = null, $no_time_given = null) {
         $criteria = new CDbCriteria();
-        $params = array();
-        if (!Yii::app()->user->isAdmin){
-            $criteria->addCondition('user_id = :user_id');
-            $params[':user_id'] = Yii::app()->user->getId();
-        }
+        $params = array();        
         
         if ($status != null && $status != 'All') {
             if ($status == Constant::$REQUEST_UNEXPIRED) {       
@@ -70,18 +66,27 @@ class RequestController extends Controller {
                     $params[':to'] = $to_time;
                 }
                 if (!$from && !$to) {
-                    $criteria->addCondition("{$type_search} IS NOT NULL", 'OR');
+                    $criteria->addCondition("{$type_search} IS NOT NULL", 'AND');                    
                 }
                 if ($no_time_given) {
-                    $criteria->addCondition("{$type_search} IS NULL", 'OR');
+                    if (($status || $status == 0) && $status != 'All') {
+                        $criteria->addCondition("{$type_search} IS NULL AND status=:status", 'OR');  
+                    } else {
+                        $criteria->addCondition("{$type_search} IS NULL", 'OR');
+                    }
                 } 
             }
+        }
+        
+        if (!Yii::app()->user->isAdmin){
+            $criteria->addCondition('user_id = :user_id', 'AND');
+            $params[':user_id'] = Yii::app()->user->getId();
         }
         $criteria->params = $params;
         $criteria->order = 'created_at DESC';
         $count = Request::model()->count($criteria);
         $pages = new CPagination($count);
-        $pages->pageSize = 10;
+        $pages->pageSize = Constant::$NOTIFICATION_PAGE_SIZE;
         $pages->applyLimit($criteria);
         $requests = Request::model()->findAll($criteria);
         
