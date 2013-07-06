@@ -125,7 +125,7 @@ class ProfileController extends Controller
 
     public function actionDelete($id)
     {
-        $profile == $this->loadModel($id);
+        $profile = $this->loadModel($id);
         if (!$profile->user->is_admin) {
             $profile->delete();
         }
