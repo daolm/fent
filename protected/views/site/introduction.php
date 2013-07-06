@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="row">
-        <h2><span class="introduction" id="contact">Contact<span><h2>                     
+        <h2><span class="introduction" id="contact">Contact</span><h2>                     
         <hr/>
         <div id="contact_content">
             <p style="display: inline">

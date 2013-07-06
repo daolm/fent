@@ -74,6 +74,14 @@ class Request extends ActiveRecord
         );
     }
     
+    public function afterDelete()
+    {
+        foreach ($this->notifications as $notification) {
+            $notification->delete();
+        }
+        return parent::afterDelete();
+    }
+    
     /**
      * @return array customized attribute labels (name=>label)
      */

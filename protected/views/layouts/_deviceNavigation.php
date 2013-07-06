@@ -64,8 +64,8 @@
                     case Constant::$REQUEST_ACCEPTED:
                         $status = 'accepted';
                         break;
-                }
-                $notice = ($noti->request->status == Constant::$REQUEST_REJECTED) ? "danger" : "success";
+                }               
+                $notice = ($noti->type == Constant::$REQUEST_REJECTED) ? "danger" : "success";
                 echo "<div class=\"row {$notice} alert notification\" id = \"notification_{$noti->id}\">";
                 if (Yii::app()->user->isAdmin) {
                     echo 'You have a new waiting';
