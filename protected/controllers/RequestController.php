@@ -30,7 +30,6 @@ class RequestController extends Controller {
     public function actionIndex($status = null, $type_search = null, $from = null, $to = null, $no_time_given = null) {
         $criteria = new CDbCriteria();
         $params = array();
-        $time_set = false;
         if (!Yii::app()->user->isAdmin){
             $criteria->addCondition('user_id = :user_id');
             $params[':user_id'] = Yii::app()->user->getId();
@@ -60,23 +59,22 @@ class RequestController extends Controller {
         } else  {
             $array_type_search = array('request_end_time', 'request_start_time', 'end_time', 'start_time');
             if (in_array($type_search, $array_type_search)) {
-                if ($from != null) {
+                if ($from) {
                     $from_time = strtotime(str_replace('/', '-', $from));
                     $criteria->addCondition("{$type_search}>=:from", 'AND');
                     $params[':from'] = $from_time;
-                    $time_set = true;
                 }
-                if ($to != null) {
+                if ($to) {
                     $to_time = strtotime(str_replace('/', '-', $to));
                     $criteria->addCondition("{$type_search}<=:to", 'AND');
                     $params[':to'] = $to_time;
-                    $time_set = true;
                 }
-                if ($no_time_given && $time_set) {
+                if (!$from && !$to) {
+                    $criteria->addCondition("{$type_search} IS NOT NULL", 'OR');
+                }
+                if ($no_time_given) {
                     $criteria->addCondition("{$type_search} IS NULL", 'OR');
-                } else {
-                    $criteria->addCondition("{$type_search} IS NOT NULL", 'AND');
-                }
+                } 
             }
         }
         $criteria->params = $params;
