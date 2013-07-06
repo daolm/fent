@@ -135,7 +135,7 @@
     </div>
     <HR/>
     <?php
-        if ($request->user_id == Yii::app()->user->getId() && $request->status == Constant::$REQUEST_BEING_CONSIDERED){
+        if ($request->canBedeleted()){
             echo "<div class='small danger btn'>";
             echo CHtml::button('Delete', array('submit' => array('request/delete', 'id' => $request->id),
                 'confirm'=>'Are you sure you want to delete this device?'));
