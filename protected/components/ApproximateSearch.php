@@ -49,6 +49,9 @@ class ApproximateSearch
                 continue;
             }
             $val = strtolower($obj->{$this->attribute});
+            if (!$val) {
+                continue;
+            }
             $type = $this->NOT_MATCH;                
             if (strpos($search, $val) !== false && strpos($search, $val) == 0) {                    
                 $type = $this->STR2_STARTS_WITH_STR1;
