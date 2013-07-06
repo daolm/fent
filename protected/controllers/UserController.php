@@ -151,10 +151,12 @@ class UserController extends Controller
     public function actionDelete($id) {
         $profile = Profile::model()->findByPk($id);
         if($profile === null) {
-            throw new CHttpException(404,'The requested page does not exist.');
+            throw new CHttpException(404, 'The requested page does not exist.');
         }
-        $profile->deleteUser();
-        $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('/profile/index'));            
+        if (!$profile->user->is_admin) {
+            $profile->deleteUser();
+        }
+        $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('/profile/index'));
     }
 }
 ?>

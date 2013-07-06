@@ -42,21 +42,27 @@
 <div class="row">
     <?php
         if (Yii::app()->user->isAdmin){
-            if (isset($data->user->username)) {
-                echo '<span class="small primary warning btn">';
-                echo CHtml::button('Delete user', array('submit' => array('user/delete', 'id' => $data->id)));
-                echo '</span>&nbsp';
-            } else {
-                echo '<span class="small primary btn">';
-                echo CHtml::button('Send sign up email', array('submit' => array('profile/sendSignUpEmail', 'id' => $data->id)));
-                echo '</span>&nbsp';
+            if (!isset($data->user->is_admin)) {
+                if (isset($data->user->username)) {
+                    echo '<span class="small primary warning btn">';
+                    echo CHtml::button('Delete user', array('submit' => array('user/delete',
+                        'id' => $data->id), 'confirm'=>'Do you want to delete this user permanently?'));
+                    echo '</span>&nbsp';
+                } else {
+                    echo '<span class="small primary btn">';
+                    echo CHtml::button('Send sign up email', array('submit' => array('profile/sendSignUpEmail', 'id' => $data->id)));
+                    echo '</span>&nbsp';
+                }
             }
             echo '<span class="small secondary btn">';
             echo CHtml::button('Update profile', array('submit' => array('profile/update', 'id' => $data->id)));
             echo '</span>&nbsp';
-            echo '<span class="small danger btn">';
-            echo CHtml::button('Delete profile', array('submit' => array('profile/delete', 'id' => $data->id), 'confirm'=>'Do you want to delete this profile permanently?'));
-            echo '</span>';
+            if (!isset($data->user->is_admin)) {
+                echo '<span class="small danger btn">';
+                echo CHtml::button('Delete profile', array('submit' => array('profile/delete',
+                    'id' => $data->id), 'confirm'=>'Do you want to delete this profile permanently?'));
+                echo '</span>';
+            }
         }
     ?>
 </div>
