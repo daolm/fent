@@ -16,5 +16,7 @@ class Constant
     
     public static $DEVICE_NORMAL = 0;
     public static $DEVICE_UNAVALABLE = 1;
+    
+    public static $NOTIFICATION_PAGE_SIZE = 20;
 }
 ?>
