@@ -126,7 +126,7 @@ class ProfileController extends Controller
     public function actionDelete($id)
     {
         $profile = $this->loadModel($id);
-        if (!$profile->user->is_admin) {
+        if (!isset($profile->user->is_admin)) {
             $profile->delete();
         }
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
