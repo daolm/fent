@@ -89,7 +89,8 @@
     cursor: hand;
 }
 
-.not_found_image {        
+.not_found_image {   
+    display:block;
     height:600px;
     margin-left: auto;    
     margin-right: auto
