@@ -4,7 +4,7 @@
         <a class="toggle" gumby-trigger="#nav1 > .row > ul" href="#"><i class="icon-menu"></i></a>
         <ul class="row">
             <li><?php echo CHtml::link('Home', Yii::app()->homeUrl); ?></li>
-            <li><?php echo CHtml::link('Introduction', '#'); ?></li>
+            <li><?php echo CHtml::link('Introduction', Yii::app()->createUrl('site/introduction')); ?></li>
             <li>
                 <?php echo CHtml::link('Devices', Yii::app()->createUrl('device/index')); ?>
                 <div class="dropdown">
