@@ -156,11 +156,7 @@ class User extends ActiveRecord
         if (!$this->is_admin){
             $notifications = $this->notifications;
         } else {
-            $criteria = new CDbCriteria;
-            $criteria->alias = 'Notification';
-            $criteria->join = 'INNER JOIN request ON request.id = Notification.request_id';
-            $criteria->condition = 'request.status = ' . Constant::$REQUEST_BEING_CONSIDERED;
-            $notifications = Notification::model()->findAll($criteria);
+            $notifications = Notification::model()->findAllByAttributes(array('type' => Constant::$REQUEST_BEING_CONSIDERED));
         }
         return $notifications;
     }

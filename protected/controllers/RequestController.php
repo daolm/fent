@@ -122,6 +122,7 @@ class RequestController extends Controller {
                 }
                 if ($result){
                     echo header('HTTP/1.1 200 OK');
+                    Notification::model()->deleteAllByAttributes(array('request_id' => $request->id));
                     $request->createNotification();
                 } else {
                     echo header('HTTP/1.1 424 Method Failure');
