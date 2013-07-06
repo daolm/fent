@@ -108,7 +108,7 @@ class ProfileController extends Controller
             $uploadedFile = CUploadedFile::getInstance($model,'image');
             $filename = "{$timestamp}-{$uploadedFile}";
             if ($_POST['Profile']['date_of_birth'] != null) {
-                $model->date_of_birth = strtotime($_POST['Profile']['date_of_birth']);
+                $model->date_of_birth = strtotime(str_replace('/', '-', $_POST['Profile']['date_of_birth']));
             }
             if($model->save()){
                 if (!empty($uploadedFile)){

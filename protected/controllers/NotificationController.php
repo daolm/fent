@@ -10,17 +10,8 @@ class NotificationController extends Controller
         }
         if (isset($_POST['notification_id'])) {
             $notification_id = $_POST['notification_id'];
-            $notification = Notification::model()->findByPk($notification_id);
-            if ($notification != null) {
-                $result = $notification->delete();
-                if ($result){
-                    echo header('HTTP/1.1 200 OK');
-                } else {
-                    echo header('HTTP/1.1 500 Internal Server Error');
-                }
-            } else {
-                echo header('HTTP/1.1 424 Method Failure');
-            }
+            Notification::model()->deleteByPk($notification_id);
+            echo header('HTTP/1.1 200 OK');
         } else {
             echo header('HTTP/1.1 400 Bad request');
         }
