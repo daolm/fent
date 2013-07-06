@@ -1,7 +1,24 @@
 <?php
 
 class UserController extends Controller
-{            
+{       
+    private function afterSignIn()
+    {
+        Yii::app()->session['category'] = Category::model()->findAll();
+        $channel = null;
+        if (RedisNotification::checkRequirement()) {
+            $rn = new RedisNotification();                        
+            if ($rn->connect()) {
+                if (Yii::app()->user->isAdmin) {
+                    $channel = $rn->checkIn('admin');
+                } else {
+                    $channel = $rn->checkIn(Yii::app()->user->getId());                            
+                }                                                
+            }
+        }
+        Yii::app()->user->setState('redisChannel', $channel);
+    }
+    
     public function actionSignIn()
     {   
         if (Yii::app()->user->getId()) {
@@ -12,19 +29,7 @@ class UserController extends Controller
             {            
                 $form->attributes = $_POST['SigninForm'];                        
                 if ($form->validate() && $form->login()) {
-                    Yii::app()->session['category'] = Category::model()->findAll();
-                    $channel = null;
-                    if (RedisNotification::checkRequirement()) {
-                        $rn = new RedisNotification();                        
-                        if ($rn->connect()) {
-                            if (Yii::app()->user->isAdmin) {
-                                $channel = $rn->checkIn('admin');
-                            } else {
-                                $channel = $rn->checkIn(Yii::app()->user->getId());                            
-                            }                                                
-                        }
-                    }
-                    Yii::app()->user->setState('redisChannel', $channel);
+                    $this->afterSignIn();
                     $this->redirect(Yii::app()->user->returnUrl);
                 } 
             }
@@ -49,7 +54,7 @@ class UserController extends Controller
                     $signinForm = new SigninForm;
                     $signinForm->attributes = $_POST['SignUpForm'];
                     $signinForm->login();
-                    Yii::app()->session['category'] = Category::model()->findAll();
+                    $this->afterSignIn();
                     $this->redirect(Yii::app()->createUrl('site/introduction'));
                 }
             } 
