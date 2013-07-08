@@ -32,8 +32,7 @@
             $borrower = $data->borrower;
             if ($borrower != null) {
                 echo '<p>Being borrowed by: ';
-                echo CHtml::link($borrower->username, Yii::app()->createUrl('profile/view', 
-                        array('id' => $borrower->profile_id)));
+                echo $borrower->profile->createViewLink($borrower->profile->name);
                 echo '</p>';                       
             } 
         ?>
