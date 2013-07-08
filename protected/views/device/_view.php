@@ -11,14 +11,6 @@
         ?>
     </div>
     <div class="seven columns push_one">
-        <div class="row">
-        <p style="display: inline-block; float: left"><?php echo CHtml::encode($data->getAttributeLabel('name')); ?>:
-        <?php echo CHtml::link(CHtml::encode($data->name), array('device/view', 'id'=>$data->id)); ?></p>
-        </div>        
-
-        <p><?php echo CHtml::encode($data->getAttributeLabel('serial_number')); ?>:
-        <?php echo CHtml::encode($data->serial_number); ?></p>
-
         <p><?php echo CHtml::encode($data->getAttributeLabel('status')); ?>:
         <?php 
             if ($data->status == Constant::$DEVICE_NORMAL){
@@ -27,6 +19,14 @@
                 echo '<span class = "danger badge"> Unavalable </span>';
             }
         ?></p>
+        
+        <div class="row">
+        <p style="display: inline-block; float: left"><?php echo CHtml::encode($data->getAttributeLabel('name')); ?>:
+        <?php echo CHtml::link(CHtml::encode($data->name), array('device/view', 'id'=>$data->id)); ?></p>
+        </div>        
+
+        <p><?php echo CHtml::encode($data->getAttributeLabel('management_number')); ?>:</p>
+        <p><?php echo CHtml::encode($data->management_number); ?></p>
 
         <?php                                                 
             $borrower = $data->borrower;
