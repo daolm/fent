@@ -15,11 +15,11 @@ class SearchController extends Controller {
         }
         
         $devices = Device::model()->findAll();
-        $as = new ApproximateSearch($devices, 'name', $key_word);
+        $as = new ApproximateSearch($devices, array('name', 'management_number', 'serial_number') , $key_word);
         $devices_found = $as->search();
         
         $profiles = Profile::model()->findAll();
-        $as = new ApproximateSearch($profiles, 'name', $key_word);
+        $as = new ApproximateSearch($profiles, array('name'), $key_word);
         $profiles_found = $as->search();
         $this->render('results', array('devices_found' => $devices_found, 'profiles_found' => $profiles_found));
     }
