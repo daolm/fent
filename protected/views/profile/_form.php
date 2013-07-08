@@ -3,7 +3,7 @@
 /* @var $model Profile */
 /* @var $form CActiveForm */
 ?>
-
+<script src='<?php echo Yii::app()->baseUrl; ?>/js/email_validate.js'></script>
 <div class="form">
 
 <?php $form = $this->beginWidget('CActiveForm', array(
@@ -21,7 +21,7 @@
             <?php echo $form->errorSummary($model); ?>
             <div class="field">
                 <?php echo $form->labelEx($model,'email'); ?>
-                <?php echo $form->textField($model,'email',array('maxlength' => 45, 'class' => 'text input', 'placeholder' => 'example@example.com')); ?>
+                <?php echo $form->textField($model,'email',array('id' => 'email', 'maxlength' => 45, 'class' => 'text input', 'placeholder' => 'example@example.com')); ?>
             </div>
         </div>
 	<div class="row">
