@@ -44,42 +44,46 @@ class ApproximateSearch
     {
         $result = array();
         $search = strtolower($this->searchString);
-        foreach ($this->arrayObject as $obj) {            
-            if (!isset($obj->{$this->attribute})) {
-                continue;
-            }
-            $val = strtolower($obj->{$this->attribute});
-            if (!$val) {
-                continue;
-            }
-            $type = $this->NOT_MATCH;                
-            if (strpos($search, $val) !== false && strpos($search, $val) == 0) {                    
-                $type = $this->STR2_STARTS_WITH_STR1;
-                $type_val = strlen($val);
-            } elseif (strpos($search, $val) > 0) {
-                $type = $this->STR2_CONTAINS_STR1;
-                $type_val = strlen($val);
-            } elseif (strpos($val, $search) !== false && strpos($val, $search) == 0) {                    
-                $type = $this->STR1_STARTS_WITH_STR2;
-                $type_val = strlen($val);
-            } elseif (strpos($val, $search) > 0) {                    
-                $type = $this->STR1_CONTAINS_STR2;
-                $type_val = strlen($val);                    
-            } elseif ($this->checkLD($ld = levenshtein($val, $search), $search)) {
-                $type = $this->LEVENSHTEIN_DISTANCE_CHECK;
-                $type_val = $ld / strlen($search);
-            } else {                    
-                $lcs = $this->getLCS($val, $search);
-                $similar_percent = strlen($lcs) / strlen($search);                    
-                if ($similar_percent > $this->minLCS) {
-                    $type = $this->LONGEST_COMMON_SUBSTRING_CHECK;
-                    $type_val = strlen($lcs) / strlen($val) * (-1);                    
+        foreach ($this->arrayObject as $obj) {
+            $found = false;
+            foreach ($this->attribute as $attr) {
+                if ($found || !isset($obj->{$attr})) {
+                    continue;
                 }
-            }                
-            if ($type != $this->NOT_MATCH) {
-                array_push ($result, array($obj, $this->attribute, $type, $type_val));
-            }                                 
-        }       
+                $val = strtolower($obj->{$attr});
+                if (!$val) {
+                    continue;
+                }
+                $type = $this->NOT_MATCH;                
+                if (strpos($search, $val) !== false && strpos($search, $val) == 0) {                    
+                    $type = $this->STR2_STARTS_WITH_STR1;
+                    $type_val = strlen($val);
+                } elseif (strpos($search, $val) > 0) {
+                    $type = $this->STR2_CONTAINS_STR1;
+                    $type_val = strlen($val);
+                } elseif (strpos($val, $search) !== false && strpos($val, $search) == 0) {                    
+                    $type = $this->STR1_STARTS_WITH_STR2;
+                    $type_val = strlen($val);
+                } elseif (strpos($val, $search) > 0) {                    
+                    $type = $this->STR1_CONTAINS_STR2;
+                    $type_val = strlen($val);                    
+                } elseif ($this->checkLD($ld = levenshtein($val, $search), $search)) {
+                    $type = $this->LEVENSHTEIN_DISTANCE_CHECK;
+                    $type_val = $ld / strlen($search);
+                } else {                    
+                    $lcs = $this->getLCS($val, $search);
+                    $similar_percent = strlen($lcs) / strlen($search);                    
+                    if ($similar_percent > $this->minLCS) {
+                        $type = $this->LONGEST_COMMON_SUBSTRING_CHECK;
+                        $type_val = strlen($lcs) / strlen($val) * (-1);                    
+                    }
+                }                
+                if ($type != $this->NOT_MATCH) {
+                    array_push ($result, array($obj, $attr, $type, $type_val));
+                    $found = true;
+                }                                 
+            }
+        }
         usort($result, array($this, 'sortArray'));
         return $result;
     }        
