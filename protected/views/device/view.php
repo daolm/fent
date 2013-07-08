@@ -37,7 +37,7 @@
             <?php                                                 
                 $request = $device->accepted_request;
                 if ($request != null) {
-                    echo '<p>Being borrowed by: '.$request->user->createViewLink().'</p>';
+                    echo '<p>Being borrowed by: '.$request->user->profile->createViewLink($request->user->profile->name).'</p>';
                     echo '<p>Expected end time: '.$request->createViewLink(DateAndTime::returnTime($request->request_end_time)).'</p>';
                 }                
             ?>
