@@ -48,7 +48,8 @@ class Device extends ActiveRecord
             array('name, category_id, management_number', 'required'),
             array('serial_number, management_number', 'unique'),
             array('updated_at, created_at, category_id', 'numerical', 'integerOnly' => true),
-            array('name, maker, serial_number, management_number, model_number, status', 'length', 'max' => 45),            
+            array('name, maker, serial_number, management_number, model_number, status', 'length', 'max' => 45),
+            array('description', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, name, description, serial_number, status, updated_at, created_at, category_id', 'safe', 'on' => 'search'),
