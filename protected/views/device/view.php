@@ -65,7 +65,7 @@
             <p>
                 <?php
                     if ($device->maker != null) {
-                        echo 'Maker number: '.$device->maker;
+                        echo 'Maker: '.$device->maker;
                     }
                 ?>
             </p>
