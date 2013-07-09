@@ -111,7 +111,7 @@ $this->breadcrumbs = array(
         foreach ($model->user->being_considered_requests as $request) {
             echo '<div class="row">';
             echo '<p>';                        
-            echo $model->user->username;
+            echo $model->user->profile->name;
             echo ' want to borrow '.$request->device->createViewLink();
             if ($request->request_start_time != null) {
                 echo ' from '.DateAndTime::returnTime($request->request_start_time);
@@ -138,7 +138,7 @@ $this->breadcrumbs = array(
         foreach ($model->user->accepted_requests as $request) {
             echo '<div class="row">';
             echo '<p>';                        
-            echo $model->user->username;
+            echo $model->user->profile->name;
             echo ' is borrowing '.$request->device->createViewLink();
             if ($request->start_time != null) {
                 echo ' from '.DateAndTime::returnTime($request->start_time);
@@ -165,7 +165,7 @@ $this->breadcrumbs = array(
         foreach ($model->user->finished_requests as $request) {
             echo '<div class="row">';
             echo '<p>';                        
-            echo $model->user->username;
+            echo $model->user->profile->name;
             echo ' borrowed '.$request->device->createViewLink();
             if ($request->start_time != null) {
                 echo ' from '.DateAndTime::returnTime($request->start_time);

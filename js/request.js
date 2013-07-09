@@ -58,7 +58,7 @@ function acceptRequestAtHomepage(request_id, value, request_end_time) {
 function newUnexpiredRequests(request_id) {
     var profile_id = $('#request_' + request_id).attr('profile_id');
     var profile_link = createUrl('profile', profile_id);
-    var username = $('#request_' + request_id).attr('username');
+    var name = $('#request_' + request_id).attr('name');
     var device_id = $('#request_' + request_id).attr('device_id');
     var device_link = createUrl('device', device_id);
     var device_name = $('#request_' + request_id).attr('device_name');
@@ -68,7 +68,7 @@ function newUnexpiredRequests(request_id) {
     var days_left = dateDiff(borrowing_start_time, request_end_time);
     
     var html = '<div class="row" id="request_' + request_id +
-            '"><div class="two columns crop"><a href="' + profile_link + '">' + username + '</a></div>';
+            '"><div class="two columns crop"><a href="' + profile_link + '">' + name + '</a></div>';
     html += '<div class="two columns crop"><a href="' + device_link + '">' + device_name + '</a></div>';
     html += '<div class="two columns">' + borrowing_start_time + '</div>';
     html += '<div class="two columns"><input request_id="' + request_id +

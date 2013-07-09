@@ -1,5 +1,12 @@
 <script src='<?php echo Yii::app()->baseUrl; ?>/js/device.js'></script>  
-
+<?php 
+    if (Yii::app()->user->hasFlash('errors')) {
+        echo '<div class="row">';
+        echo '<div class="danger alert">';
+        echo Yii::app()->user->getFlash('errors');
+        echo '</div></div>';
+    }
+?>
 <div class="row centered">
     <h1><?php echo $device->name; ?></h1>
     <div class="row">
@@ -32,14 +39,28 @@
                         echo '</div>';
                     }
                 } 
-                ?>              
+                ?>
             </p>
             <?php                                                 
                 $request = $device->accepted_request;
                 if ($request != null) {
                     echo '<p>Being borrowed by: '.$request->user->profile->createViewLink($request->user->profile->name).'</p>';
                     echo '<p>Expected end time: '.$request->createViewLink(DateAndTime::returnTime($request->request_end_time)).'</p>';
-                }                
+                } elseif (Yii::app()->user->isAdmin) {
+                    echo '<div class="row">';
+                    echo CHtml::beginForm(Yii::app()->createUrl('request/create'), 'post');
+                    echo '<div class="field three column">';
+                    echo CHtml::textField('assign_user', '',array(
+                        'placeholder' => 'name or employee code',
+                        'class' => 'text input',
+                        ));
+                    echo CHtml::textField('device_id', $device->id, array('hidden' => hidden));
+                    echo '</div>';
+                    echo '<div class="medium success btn">';
+                    echo CHtml::submitButton('OK');
+                    echo CHtml::endForm();
+                    echo '</div></div>';
+                }
             ?>
             <p>
                 <?php
@@ -154,13 +175,13 @@
     <?php } ?>
 </div>
 <?php $user = User::model()->findByPk(Yii::app()->user->id); ?>
-<div class="row" id ="being_considered_requests" current_user="<?php echo $user->username ?>" hidden="hidden"
+<div class="row" id ="being_considered_requests" current_user="<?php echo $user->profile->name ?>" hidden="hidden"
      count_consider="<?php echo count($device->being_considered_requests) ?>" current_profile="<?php echo $user->profile_id ?>">
 <?php
     foreach ($device->being_considered_requests as $request) {
         echo '<div class="row">';
         echo '<p>';                        
-        echo $request->user->createViewLink();
+        echo $request->user->createViewLink($request->user->profile->name);
         echo ' sent a request to borrow this device';
         if ($request->request_start_time != null) {
             echo ' from '.DateAndTime::returnTime($request->request_start_time);
@@ -188,7 +209,7 @@
     foreach ($device->finished_requests as $request) {
         echo '<div class="row">';
         echo '<p>';                        
-        echo $request->user->createViewLink();
+        echo $request->user->createViewLink($request->user->profile->name);
         echo ' borrowed this device';
         if ($request->start_time != null) {
             echo ' from '.DateAndTime::returnTime($request->start_time);

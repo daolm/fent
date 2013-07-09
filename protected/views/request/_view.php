@@ -26,7 +26,7 @@ if ($request->status == Constant::$REQUEST_BEING_CONSIDERED){
 
 <div class="row a_request" status_code="<?php echo $status; ?>" style="font-size: 0.9em">
     <div class="two columns crop">
-        <?php echo CHtml::link(CHtml::encode($request->user->username), array('profile/view', 'id' => $request->user->profile->id)); ?>
+        <?php echo CHtml::link(CHtml::encode($request->user->profile->name), array('profile/view', 'id' => $request->user->profile->id)); ?>
     </div>
     <div class="two columns crop">
         <?php echo CHtml::link(CHtml::encode($request->device->name), array('device/view', 'id' => $request->device->id)); ?>

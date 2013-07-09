@@ -1,10 +1,10 @@
 <div class="row" id="request_<?php echo $request->id; ?>"
      profile_id="<?php echo $request->user->profile->id; ?>"
      device_id="<?php echo $request->device->id; ?>"
-     username="<?php echo $request->user->username; ?>"
+     name="<?php echo $request->user->profile->name; ?>"
      device_name="<?php echo $request->device->name; ?>">    
     <div class="two columns crop">
-        <?php if ($request) echo CHtml::link(CHtml::encode($request->user->username), array('profile/view', 'id' => $request->user->profile->id)); ?>
+        <?php if ($request) echo CHtml::link(CHtml::encode($request->user->profile->name), array('profile/view', 'id' => $request->user->profile->id)); ?>
     </div>
     <div class="two columns crop">
         <?php echo CHtml::link(CHtml::encode($request->device->name), array('device/view', 'id' => $request->device->id)); ?>

@@ -3,7 +3,7 @@
     <div class="row">
         <?php 
             echo CHtml::label('Username: ', null); 
-            echo $request->user->createViewLink() ;
+            echo $request->user->createViewLink($request->user->profile->name) ;
         ?>
     </div>
     <div class="row">

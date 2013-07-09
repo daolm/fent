@@ -27,6 +27,33 @@ class RequestController extends Controller {
     );
     }
     
+    public function actionCreate()
+    {
+        $name_or_code = $_POST['assign_user'];
+        $criteria = new CDbCriteria();
+        $criteria->condition = "name = '{$name_or_code}' OR employee_code = '{$name_or_code}'";
+        $profile = Profile::model()->find($criteria);
+        if ($profile) {
+            $device_id = $_POST['device_id'];
+            $request = new Request();
+            $request->status = Constant::$REQUEST_ACCEPTED;
+            if (isset($profile->user->id)) {
+                $request->user_id = $profile->user->id;
+                $request->device_id = $device_id;
+                $request->reason = 'Added by admin';
+                $request->start_time = time();
+                if ($request->save()) {
+                    $request->createNotification();
+                }                
+            } else {
+                Yii::app()->user->setFlash('errors', 'User has not been created!');
+            } 
+        } else {
+            Yii::app()->user->setFlash('errors', 'Profile Not Found!');
+        }
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+    
     public function actionIndex($status = null, $type_search = null, $from = null, $to = null, $no_time_given = null) {
         $criteria = new CDbCriteria();
         $params = array();        
